@@ -15,18 +15,24 @@ fn read_input(path: &str) -> Vec<i128> {
 }
 
 fn part2(input: &Vec<i128>) -> i128 {
-    input.iter()
+    input
+        .iter()
         .map(|&stone| count_stones(75, stone, &mut HashMap::new()))
         .sum()
 }
 
 fn part1(input: &Vec<i128>) -> i128 {
-    input.iter()
+    input
+        .iter()
         .map(|&stone| count_stones(25, stone, &mut HashMap::new()))
         .sum()
 }
 
-fn count_stones(blink_amount: i32, stone_value: i128, stone_count_cache: &mut HashMap<(i32, i128), i128>) -> i128 {
+fn count_stones(
+    blink_amount: i32,
+    stone_value: i128,
+    stone_count_cache: &mut HashMap<(i32, i128), i128>,
+) -> i128 {
     if blink_amount == 0 {
         return 1;
     }
@@ -37,9 +43,10 @@ fn count_stones(blink_amount: i32, stone_value: i128, stone_count_cache: &mut Ha
         return cached_stone_count;
     }
     if let Some((left, right)) = spliteable(stone_value) {
-        let count = count_stones(blink_amount - 1, left, stone_count_cache) + count_stones(blink_amount - 1, right, stone_count_cache);
+        let count = count_stones(blink_amount - 1, left, stone_count_cache)
+            + count_stones(blink_amount - 1, right, stone_count_cache);
         stone_count_cache.insert((blink_amount, stone_value), count);
-        return count
+        return count;
     }
     count_stones(blink_amount - 1, stone_value * 2024, stone_count_cache)
 }
@@ -62,12 +69,7 @@ fn test_splitalbe() {
         spliteable(6032),
         spliteable(7303),
     ];
-    let expected = [
-        None,
-        Some((2,4)),
-        Some((60, 32)),
-        Some((73, 3)),
-    ];
+    let expected = [None, Some((2, 4)), Some((60, 32)), Some((73, 3))];
     assert_eq!(expected, results);
 }
 
@@ -76,4 +78,3 @@ fn test_part1() {
     let input = read_input("testinput.txt");
     assert_eq!(part1(&input), 55312);
 }
-
