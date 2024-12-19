@@ -39,7 +39,7 @@ fn get_steps(obstacles: &[Point], size: usize) -> Option<usize> {
         let mut new_level = Vec::new();
         for &p in &levels[i] {
             for neigh in p.neighbors() {
-                // check if the neightbor is in any of the previous levels
+                // check if `neigh` is in any of the previous levels
                 if (0..i)
                     .map(|j| levels[j].iter())
                     .flatten()
